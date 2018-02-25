@@ -34,19 +34,17 @@ Creates a new view instance linked to `vm`.
 #### `AbstractView.render(...params)`
 This abstract method should implement view's rendering logic.
 
-### SimpleProvider
+### `SimpleProvider`
 This a service to provide instances based on the predefined rules.
 
-#### SimpleProvider.register({ source: Constructor, resolver: Function })
+#### `SimpleProvider.register({ source: Constructor, resolver: Function })`
 Registers `resolver` for `source` instances.
 
-#### SimpleProvider.resolve(object: Object)
+#### `SimpleProvider.resolve(object: Object)`
 Finds resolution by matching prototype of `object` with registered sources.
 
-### CachingProvider
+### `CachingProvider`
 Same as `SimpleProvider` but caches resolutions so it will be only one resolver call per input object.
-
-#### SimpleProvider
 
 ### `@Mutable`
 This is a decorator that marks mutable properties in the model. All the mutable properties will be observed for changes by a view-model.
