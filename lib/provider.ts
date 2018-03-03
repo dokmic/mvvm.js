@@ -45,9 +45,9 @@ export class SimpleProvider< Source = any, Destination = any >
     resolve(object: Source) {
       const resolution = this.find(Object.getPrototypeOf(object).constructor);
 
-      return resolution ?
-        resolution.resolver(object) :
-        null;
+      return resolution
+        ? resolution.resolver(object)
+        : null;
     }
   }
 

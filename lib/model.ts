@@ -37,7 +37,7 @@ export abstract class AbstractModel<TModel extends Model = Model>
      * @param keys Mutable keys
      */
     protected observe(keys: string[] = []) {
-      keys.forEach((key) => {
+      keys.forEach(key => {
         let value = this.observable(key, this[key]);
 
         Object.defineProperty(this, key, {

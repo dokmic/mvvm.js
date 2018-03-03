@@ -3,7 +3,7 @@ import { UIButton, UIButtonModel, UIButtonViewModel, UIButtonView } from './butt
 import { UIProvideModel, UIProvideViewModel } from './core';
 
 export interface UIToggle extends UIButton {
-  active ? : boolean;
+  active?: boolean;
 }
 
 export class UIToggleModel<TUIToggle extends UIToggle = UIToggle>

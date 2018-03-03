@@ -48,7 +48,7 @@ export class UIToggleGroupViewModel<TUIToggleGroupModel extends UIToggleGroupMod
 export class UIToggleGroupView<TUIToggleGroupViewModel extends UIToggleGroupViewModel = UIToggleGroupViewModel>
   extends UIGroupView<TUIToggleGroupViewModel> {
     @Binding protected children(value: UIViewModel[]) {
-      value.forEach((child) => {
+      value.forEach(child => {
         this.element.appendChild(uiViewProvider.resolve(child).element);
       });
     }

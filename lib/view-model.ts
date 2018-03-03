@@ -46,7 +46,7 @@ export abstract class AbstractViewModel<TAbstractModel extends AbstractModel = A
           this,
           property, {
             get: () => this.model[property],
-            set: (value) => this.model[property] = value,
+            set: value => this.model[property] = value,
             configurable: true,
           }
         )
@@ -66,9 +66,9 @@ export abstract class AbstractViewModel<TAbstractModel extends AbstractModel = A
         object = Object.getPrototypeOf(object);
 
         if (descriptor) {
-          return descriptor.get || descriptor.set ?
-            descriptor :
-            null;
+          return descriptor.get || descriptor.set
+            ? descriptor
+            : null;
         }
       } while (object);
 

@@ -15,7 +15,7 @@ export class UIGroupViewModel<TUIGroupModel extends UIGroupModel = UIGroupModel>
   extends UIViewModel<TUIGroupModel> {
     get children(): UIViewModel[] {
       return this.model.children
-        .map((model) => uiViewModelProvider.resolve(model));
+        .map(model => uiViewModelProvider.resolve(model));
     }
   }
 
@@ -27,7 +27,7 @@ export class UIGroupView<TUIGroupViewModel extends UIGroupViewModel = UIGroupVie
     }
 
     @Binding protected children(value: UIViewModel[]) {
-      value.forEach((child) => {
+      value.forEach(child => {
         this.element.appendChild(uiViewProvider.resolve(child).element);
       });
     }
