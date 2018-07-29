@@ -13,3 +13,11 @@ script:
 
 after_script:
   - npm run codecov
+
+deploy:
+  provider: npm
+  email: m@dokol.in
+  api_key:
+    secure: "pbDmSLQKhF5NFZSETiGI2rZb7nlL2XqAB8KvTQuJXUXLSyablvEPttiq+uyAB487wf80vwUhTopW+6Q/kHSU49V6n/b/kGsJjzufXSIayqIut9flCaX5jOyuwVUW+t0FdwMgq6JvbUgf1NDVErAOBQ7TvlXP4Mi4TYKO2rmeU+LRWaNpWHX9oQj0qC0BEHSiGRAYlNtnZjnwEbnp2p9tJDqPzp0wYJLxFZlGtY7hk9soSil5gmZNRSVaeQ/KkvDFLVSnAcf2HBMmUeeqv394YyNkS9UQqwMMhz0gjV0l42RKN1sJ+L7enHqViDP02JqLehiukMFXdLfmTa1Rem4PK8G1mCKkFxkE07pzpzJ9HVUgkGeK+c0LEdBlEVt8deVqtlIu5AI2CwQWYTVcHNKDcMwEQ6iP+bDs73VKsfi+eoQ5p88E6q+0ji6pUmJSmgqrSjXJ+lnSWNKFWYc4oJWX12oHznh+TXWQUbp5ipMGOoMXAanQ52rP+87GW8NKUhE92BhNa15idaIKI990DILHGOffZvRHYyf9YefmyGQP8P0q5qrIt/jIvhdbRn5I6EfplfPukva1IOq6cHM3SNZMyWix7V9+4n1i/67Jcjl9Tk0hA5fMkXcbcvviRWfoHmfcOIlq7hmlEDsBC3suB+vun0I7ZLfTF2+kjpNGkgQfUVg="
+  on:
+    tags: true
