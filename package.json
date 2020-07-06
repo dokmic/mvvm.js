@@ -1,0 +1,19 @@
+{
+  "name": "mvvm.js",
+  "version": "1.0.0",
+  "description": "Model-View-ViewModel Simple Framework",
+  "keywords": [
+    "mvvm",
+    "ui",
+    "typescript"
+  ],
+  "author": "Michael Dokolin <m@dokol.in>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dokmic/mvvm.js"
+  },
+  "bugs": {
+    "url": "https://github.com/dokmic/mvvm.js/issues"
+  }
+}
