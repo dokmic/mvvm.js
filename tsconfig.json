@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./src",
+    "experimentalDecorators": true,
+    "lib": [
+      "dom",
+      "es6",
+      "es2017",
+      "es2018",
+      "es2019"
+    ],
+    "moduleResolution": "node",
+    "outDir": "./lib",
+    "paths": {
+      "mvvm.js": [""]
+    },
+    "sourceMap": true,
+    "strict": true,
+    "target": "es6"
+  }
+}

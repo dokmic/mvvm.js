@@ -15,5 +15,11 @@
   },
   "bugs": {
     "url": "https://github.com/dokmic/mvvm.js/issues"
+  },
+  "files": [
+    "lib"
+  ],
+  "devDependencies": {
+    "typescript": "^4.0"
   }
 }
