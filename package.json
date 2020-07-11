@@ -19,7 +19,19 @@
   "files": [
     "lib"
   ],
+  "main": "lib/index.js",
+  "module": "lib/index.mjs",
+  "es2015": "lib/index.mjs",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "build": "rollup -c rollup.config.js"
+  },
   "devDependencies": {
+    "@rollup/plugin-node-resolve": "^9.0",
+    "rollup": "^2.28",
+    "rollup-plugin-dts": "^1.4",
+    "rollup-plugin-terser": "^7.0",
+    "rollup-plugin-typescript2": "^0.27",
     "typescript": "^4.0"
   }
 }
