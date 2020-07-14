@@ -1,0 +1,79 @@
+{
+  "extends": [
+    "airbnb/base",
+    "prettier"
+  ],
+  "overrides": [
+    {
+      "files": ["*.ts"],
+      "extends": [
+        "plugin:@typescript-eslint/eslint-recommended",
+        "plugin:@typescript-eslint/recommended",
+        "prettier/@typescript-eslint"
+      ],
+      "parser": "@typescript-eslint/parser",
+      "parserOptions": {
+        "project": "./tsconfig.json",
+        "tsconfigRootDir": "."
+      },
+      "plugins": ["@typescript-eslint"],
+      "rules": {
+        "@typescript-eslint/explicit-function-return-type": ["warn", { "allowExpressions": true }],
+        "@typescript-eslint/explicit-module-boundary-types": "off",
+        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/no-non-null-assertion": "off",
+        "@typescript-eslint/no-shadow": ["error"],
+        "@typescript-eslint/no-use-before-define": ["error"],
+        "no-shadow": "off",
+        "no-use-before-define": "off"
+      }
+    },
+    {
+      "files": ["*.spec.ts"],
+      "rules": {
+        "@typescript-eslint/explicit-function-return-type": "off",
+        "@typescript-eslint/unbound-method": "off",
+        "import/no-extraneous-dependencies": "off"
+      }
+    },
+    {
+      "files": ["*.d.ts"],
+      "rules": {
+        "import/no-extraneous-dependencies": "off"
+      }
+    }
+  ],
+  "plugins": [
+    "prettier"
+  ],
+  "rules": {
+    "class-methods-use-this": "off",
+    "consistent-return": ["error", { "treatUndefinedAsUnspecified": true }],
+    "import/extensions": ["error", "ignorePackages", {
+      "js": "never",
+      "ts": "never",
+      "jsx": "never",
+      "tsx": "never"
+    }],
+    "import/no-unresolved": ["error", { "ignore": ["mvvm\\.js"] }],
+    "import/prefer-default-export": "off",
+    "max-classes-per-file": "off",
+    "no-continue": "off",
+    "no-useless-constructor": "off",
+    "no-void": "off",
+    "prettier/prettier": ["warn", {
+      "arrowParens": "always",
+      "printWidth": 120,
+      "singleQuote": true,
+      "trailingComma": "all"
+    }]
+  },
+  "settings": {
+    "import/resolver": {
+      "eslint-import-resolver-typescript": true,
+      "node": {
+        "extensions": [".ts", ".d.ts", ".tsx"]
+      }
+    }
+  }
+}
