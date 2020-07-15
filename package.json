@@ -26,6 +26,7 @@
   "scripts": {
     "build": "rollup -c rollup.config.js",
     "coverage": "codecov",
+    "docs": "typedoc",
     "lint": "eslint --ext ts,tsx src/ demo/src/",
     "test": "jest --coverage"
   },
@@ -49,6 +50,8 @@
     "rollup-plugin-terser": "^7.0",
     "rollup-plugin-typescript2": "^0.27",
     "ts-jest": "^26.4",
+    "typedoc": "^0.19",
+    "typedoc-plugin-external-module-map": "^1.2",
     "typescript": "^4.0"
   },
   "jest": {

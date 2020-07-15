@@ -17,5 +17,18 @@
     "sourceMap": true,
     "strict": true,
     "target": "es6"
+  },
+  "typedocOptions": {
+    "disableSources": true,
+    "excludeExternals": true,
+    "excludeNotExported": true,
+    "excludePrivate": true,
+    "excludeProtected": true,
+    "external-modulemap": ".*\/lib\/([\\w\\-_]+)",
+    "hideGenerator": true,
+    "includeDeclarations": true,
+    "inputFiles": ["lib/index.d.ts"],
+    "mode": "modules",
+    "out": "docs"
   }
 }
