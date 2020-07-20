@@ -1,0 +1,1 @@
+export { $reference } from './property';
