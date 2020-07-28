@@ -21,3 +21,12 @@ export interface Constructor<T = any, U extends any[] = any[]> {
 export function isCallable(value: unknown): value is Function {
   return !!(value && typeof value === 'function');
 }
+
+/**
+ * Checks whether a value is not scalar.
+ * @param value - The value to check.
+ * @returns `true ` if the value is an object.
+ */
+export function isObject(value: unknown): value is Object {
+  return !!(value && typeof value === 'object');
+}
