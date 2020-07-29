@@ -45,6 +45,7 @@ export default [
 
   ...[['src/index.ts', { output: { dir: 'lib' } }]].map(([input, { output, plugins }]) => ({
     input,
+    external: ['ts-toolbelt'],
     output: {
       ...output,
       entryFileNames: '[name].d.ts',
