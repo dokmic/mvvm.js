@@ -14,6 +14,13 @@ export interface Constructor<T = any, U extends any[] = any[]> {
 }
 
 /**
+ * An object prototype.
+ */
+export interface Prototype<T extends Function = Function> {
+  constructor: T;
+}
+
+/**
  * Checks whether a value is a function.
  * @param value - The value to check.
  * @returns `true` if the value is callable.
@@ -29,4 +36,13 @@ export function isCallable(value: unknown): value is Function {
  */
 export function isObject(value: unknown): value is Object {
   return !!(value && typeof value === 'object');
+}
+
+/**
+ * Checks whether a value is an object prototype.
+ * @param value - The value to check.
+ * @returns `true` if the value is a prototype.
+ */
+export function isPrototype(value: unknown): value is Prototype {
+  return !!(value && Object.prototype.hasOwnProperty.call(value, 'constructor'));
 }
