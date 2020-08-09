@@ -112,3 +112,25 @@ export class ContainerNode<T> extends Node<T> {
     delete this.element;
   }
 }
+
+/**
+ * Virtual DOM node which cannot be present in the DOM.
+ */
+export class ExpressionNode<T> extends Node<T> {
+  /**
+   * Initializes a Virtual DOM node and appends it to the parent.
+   * @param parent - Parent Virtual DOM Node.
+   */
+  constructor(public parent: Node<T>) {
+    super(parent);
+
+    this.container = this.parent.container;
+  }
+
+  append(node: Node<T>): void {
+    super.append(node);
+
+    // eslint-disable-next-line no-param-reassign
+    node.left = node.left ?? this.left;
+  }
+}

@@ -1,5 +1,5 @@
 import { mocked } from 'ts-jest/utils';
-import { ContainerNode, Node } from './node';
+import { ContainerNode, ExpressionNode, Node } from './node';
 
 describe('Node', () => {
   class TestNode extends Node<unknown> {}
@@ -119,6 +119,31 @@ describe('ContainerNode', () => {
       node.remove();
 
       expect(node.element).toBeUndefined();
+    });
+  });
+});
+
+describe('ExpressionNode', () => {
+  describe('container', () => {
+    it('should get a container node which is present in the DOM', () => {
+      const parent = new ContainerNode();
+      const node = new ExpressionNode(parent);
+
+      expect(node.container).toBe(parent.container);
+    });
+  });
+
+  describe('append', () => {
+    it('should set own previous sibling node for the first child node', () => {
+      const root = new RootNode('something');
+      const node1 = new ContainerNode(root);
+      const node2 = new ExpressionNode(root);
+      const node3 = new ExpressionNode(node2);
+      const node4 = new ExpressionNode(node2);
+
+      expect(node2.left).toBe(node1);
+      expect(node3.left).toBe(node1);
+      expect(node4.left).toBe(node3);
     });
   });
 });
