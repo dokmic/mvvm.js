@@ -1,5 +1,7 @@
+import { Evaluated, isCallable, $evaluable } from '../reflectable';
+import { $observable } from '../observable';
 import { ContainerNode, ExpressionNode, Node } from './node';
-import { Child, Children, Elements, Void } from './element';
+import { Child, Children, ElementType, Element, Elements, Type, Void, PropsOf } from './element';
 import { Renderer } from './renderer';
 
 interface Branch<T, U extends Elements<U>> {
@@ -73,6 +75,100 @@ export class Tree<T, U extends Elements<U>> {
   }
 
   private renderChild(parent: Node<T>, child: Exclude<Child<U>, Void>): Branch<T, U> {
+    if (child instanceof Element) {
+      return this.renderElement(parent, child);
+    }
+
     throw new Error('Not implemented');
+  }
+
+  private renderElement(parent: Node<T>, element: Element<U, Type<U>>): Branch<T, U> {
+    return this.renderNode(parent, element.type, element.props as PropsOf<keyof U, U>);
+  }
+
+  /**
+   * Renders a DOM node.
+   * @param parent - Parent Virtual DOM node.
+   * @param type - The DOM node type or tag.
+   * @param props - The DOM node properties/attributes.
+   */
+  protected renderNode<E extends ElementType<U>>(parent: Node<T>, type: E, props: PropsOf<E, U>): Branch<T, U> {
+    const node = new ContainerNode(parent);
+    node.element = this.renderer.createElement(type, node.parentElement);
+    node.once('remove', () => this.renderer.removeChild(node.parentElement!, node.element!), true);
+    this.setProperties(node, props);
+
+    return { node, children: props.children as Children<U> };
+  }
+
+  private setProperties<E extends ElementType<U>>(node: ContainerNode<T>, props: PropsOf<E, U>): void {
+    Object.keys(props).forEach((prop) => {
+      if (prop === 'children') {
+        return;
+      }
+
+      if (prop.startsWith('on')) {
+        return void this.setListener(node, props, prop);
+      }
+
+      this.setProperty(node, props, prop);
+    });
+  }
+
+  /**
+   * Sets a DOM node property
+   * @param node - Virtual DOM node corresponding to the DOM node.
+   * @param props - Properties map.
+   * @param prop - The property name to set.
+   */
+  protected setProperty<E extends ElementType<U>>(
+    node: ContainerNode<T>,
+    props: PropsOf<E, U>,
+    prop: keyof PropsOf<E, U>,
+  ): void {
+    const observable = $observable($evaluable(props, prop));
+    const update = (value?: Evaluated<typeof props[typeof prop]>): void =>
+      value == null
+        ? this.renderer.removeAttribute<E>(node.element!, prop)
+        : this.renderer.setAttribute<E, typeof prop>(node.element!, prop, value as PropsOf<E, U>[typeof prop]);
+
+    update(observable.call().get());
+
+    const unobserve = observable.observe(update);
+    node.once('remove', unobserve, true);
+  }
+
+  /**
+   * Sets a DOM node event listener.
+   * @param node - Virtual DOM node corresponding to the DOM node.
+   * @param props - Properties map.
+   * @param prop - Property name of the event listener.
+   */
+  protected setListener<E extends ElementType<U>>(
+    node: ContainerNode<T>,
+    props: PropsOf<E, U>,
+    prop: keyof PropsOf<E, U> & string,
+  ): void {
+    let listener = props[prop];
+    const event = prop.charAt(2).toLowerCase() + prop.slice(3);
+    const subscribe = (): void =>
+      void (isCallable(listener) && this.renderer.addEventListener(node.element!, event, listener));
+    const unsubscribe = (): void =>
+      void (isCallable(listener) && this.renderer.removeEventListener(node.element!, event, listener));
+    const unobserve = $observable(props, prop).observe((value) => {
+      unsubscribe();
+      listener = value;
+      subscribe();
+    });
+
+    subscribe();
+    node.once(
+      'remove',
+      () => {
+        unsubscribe();
+        unobserve();
+      },
+      true,
+    );
   }
 }
