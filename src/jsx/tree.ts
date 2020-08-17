@@ -1,7 +1,7 @@
 import { Evaluated, isCallable, $evaluable } from '../reflectable';
 import { $observable } from '../observable';
 import { ContainerNode, ExpressionNode, Node } from './node';
-import { Child, Children, ElementType, Element, Elements, Type, Void, PropsOf } from './element';
+import { Child, Children, ElementType, Element, Elements, Expression, Type, Void, PropsOf } from './element';
 import { Renderer } from './renderer';
 
 interface Branch<T, U extends Elements<U>> {
@@ -79,11 +79,31 @@ export class Tree<T, U extends Elements<U>> {
       return this.renderElement(parent, child);
     }
 
+    if (isCallable(child)) {
+      return this.renderExpression(parent, child);
+    }
+
     throw new Error('Not implemented');
   }
 
   private renderElement(parent: Node<T>, element: Element<U, Type<U>>): Branch<T, U> {
     return this.renderNode(parent, element.type, element.props as PropsOf<keyof U, U>);
+  }
+
+  /**
+   * Renders an expression node.
+   * @param parent - Parent Virtual DOM node.
+   * @param expression - The expression to evaluate and render.
+   */
+  protected renderExpression(parent: Node<T>, expression: Expression<U>): Branch<T, U> {
+    const node = new ExpressionNode(parent);
+    const observable = $observable(expression);
+    const children = observable.call().get();
+
+    const unsubscribe = observable.observe((elements) => this.render(node, elements));
+    node.once('remove', unsubscribe, true);
+
+    return { node, children };
   }
 
   /**

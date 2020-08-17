@@ -1,5 +1,5 @@
 import { $observable } from '../observable';
-import { ContainerNode } from './node';
+import { ContainerNode, ExpressionNode } from './node';
 import { Renderer } from './renderer';
 import { Tree } from './tree';
 import { Children, createElement } from './element';
@@ -85,11 +85,76 @@ describe('Tree', () => {
       expect(children[2].element).toBe('d');
     });
 
+    it('should set a tail on expression nodes', () => {
+      tree.render(root, () => () => <a />);
+
+      const container = root.children[0].children[0].children[0];
+
+      expect(root.children[0].tail).toBe(container);
+      expect(root.children[0].children[0].tail).toBe(container);
+    });
+
     it('should clean root before render', () => {
       spyOn(root, 'clean');
       tree.render(root, <a />);
 
       expect(root.clean).toHaveBeenCalled();
+    });
+
+    it('should set a tail on parent nodes', () => {
+      tree.render(root, () => [jest.fn(), () => <a />, jest.fn()]);
+
+      const [expression1] = root.children;
+      const [expression2, expression3] = expression1.children;
+
+      tree.render(expression3, <b />);
+      tree.render(expression2, <c />);
+
+      expect(expression1.tail).toBeDefined();
+      expect(expression1.tail!.element).toBe('b');
+      expect(expression2.tail).toBeDefined();
+      expect(expression2.tail!.element).toBe('c');
+    });
+  });
+
+  describe('renderExpression', () => {
+    let element: Children<Elements>;
+    const expression = jest.fn(() => element);
+    const observable = $observable(expression);
+
+    beforeEach(() => {
+      expression.mockClear();
+      element = <a />;
+
+      tree.render(root, () => observable.call().get());
+    });
+
+    it('should render an expression', () => {
+      const [node] = root.children;
+      const [child] = node.children as ContainerNode<Type>[];
+
+      expect(node).toBeInstanceOf(ExpressionNode);
+      expect(child.element).toBe('a');
+    });
+
+    it('should rerender on expression change', () => {
+      element = <b />;
+      observable.notify();
+
+      const [node] = root.children;
+      const [child] = node.children as ContainerNode<Type>[];
+
+      expect(child.element).toBe('b');
+    });
+
+    it('should unsubscribe on rerendering', () => {
+      tree.render(root, <c />);
+      element = <b />;
+      observable.notify();
+
+      const [node] = root.children as ContainerNode<Type>[];
+
+      expect(node.element).toBe('c');
     });
   });
 
