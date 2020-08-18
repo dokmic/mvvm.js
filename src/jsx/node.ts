@@ -114,6 +114,11 @@ export class ContainerNode<T> extends Node<T> {
 }
 
 /**
+ * Virtual DOM node representing a plain text node.
+ */
+export class TextNode<T> extends ContainerNode<T> {}
+
+/**
  * Virtual DOM node which cannot be present in the DOM.
  */
 export class ExpressionNode<T> extends Node<T> {

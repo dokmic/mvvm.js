@@ -158,6 +158,22 @@ describe('Tree', () => {
     });
   });
 
+  describe('renderText', () => {
+    beforeEach(() => {
+      tree.render(root, 'something');
+    });
+
+    it('should create a text node', () => {
+      expect(renderer.createText).toHaveBeenCalledWith('something', root.element);
+    });
+
+    it('should remove text node on rerendering', () => {
+      tree.render(root, 'anything');
+
+      expect(renderer.removeChild).toHaveBeenCalledWith(root.element, 'something');
+    });
+  });
+
   describe('renderNode', () => {
     beforeEach(() => {
       tree.render(

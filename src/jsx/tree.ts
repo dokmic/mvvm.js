@@ -1,6 +1,6 @@
 import { Evaluated, isCallable, $evaluable } from '../reflectable';
 import { $observable } from '../observable';
-import { ContainerNode, ExpressionNode, Node } from './node';
+import { ContainerNode, ExpressionNode, Node, TextNode } from './node';
 import { Child, Children, ElementType, Element, Elements, Expression, Type, Void, PropsOf } from './element';
 import { Renderer } from './renderer';
 
@@ -83,7 +83,7 @@ export class Tree<T, U extends Elements<U>> {
       return this.renderExpression(parent, child);
     }
 
-    throw new Error('Not implemented');
+    return this.renderText(parent, child);
   }
 
   private renderElement(parent: Node<T>, element: Element<U, Type<U>>): Branch<T, U> {
@@ -104,6 +104,19 @@ export class Tree<T, U extends Elements<U>> {
     node.once('remove', unsubscribe, true);
 
     return { node, children };
+  }
+
+  /**
+   * Renders a plain text node.
+   * @param parent - Parent Virtual DOM node.
+   * @param text - The text to render.
+   */
+  protected renderText(parent: Node<T>, text: string): Branch<T, U> {
+    const node = new TextNode(parent);
+    node.element = this.renderer.createText(text, node.parentElement);
+    node.once('remove', () => this.renderer.removeChild(node.parentElement!, node.element!), true);
+
+    return { node, children: null as never };
   }
 
   /**
