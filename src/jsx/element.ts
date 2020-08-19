@@ -1,4 +1,4 @@
-import { EvaluableObject } from '../reflectable';
+import { Callable, EvaluableObject } from '../reflectable';
 
 type Many<T> = T[] | T[][];
 type OneOrMany<T> = T | Many<T>;
@@ -56,14 +56,47 @@ export type IntrinsicElements<T extends Elements<T>> = {
 export type ElementType<T extends Elements<T>> = keyof T;
 
 /**
+ * JSX component base class.
+ */
+export abstract class ClassComponent<T extends Elements<T> = Elements, P extends PropsObject = PropsObject> {
+  /**
+   * @param props - Component properties.
+   */
+  constructor(readonly props: P) {}
+
+  /**
+   * Renders the component node.
+   * @returns Rendered elements.
+   */
+  abstract render(): Children<T>;
+}
+
+interface ClassComponentType<T extends Elements<T>, P extends PropsObject> {
+  new (props: P): ClassComponent<T, P>;
+}
+
+type FunctionComponentType<T extends Elements<T>, P extends PropsObject> = Callable<Children<T>, [P]>;
+
+/**
+ * JSX component element type.
+ */
+export type ComponentType<T extends Elements<T>, P extends PropsObject> =
+  | ClassComponentType<T, P>
+  | FunctionComponentType<T, P>;
+
+/**
  * JSX element type.
  */
-export type Type<T extends Elements<T>> = ElementType<T>;
+export type Type<T extends Elements<T>> = ElementType<T> | ComponentType<T, any>;
 
 /**
  * Macro to get properties type.
  */
-export type PropsOf<T extends Type<U>, U extends Elements<U> = Elements<any>> = T extends ElementType<U> ? U[T] : never;
+export type PropsOf<T extends Type<U>, U extends Elements<U> = Elements<any>> = T extends ElementType<U>
+  ? U[T]
+  : T extends ComponentType<U, infer P>
+  ? P
+  : never;
 
 /**
  * Virtual DOM element.
@@ -94,4 +127,14 @@ export function createElement<T extends Elements<T>, U extends Type<T> = Type<T>
       children: children.length || !props?.children ? children : props.children,
     }),
   );
+}
+
+/**
+ * Checks whether the value is a class component.
+ * @returns `true` when the value is a class component type.
+ */
+export function isClassComponent<T extends Elements<T>, P extends PropsObject>(
+  value: any,
+): value is ClassComponentType<T, P> {
+  return value?.prototype instanceof ClassComponent;
 }
