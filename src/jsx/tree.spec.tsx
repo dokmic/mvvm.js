@@ -2,7 +2,7 @@ import { $observable } from '../observable';
 import { ContainerNode, ExpressionNode } from './node';
 import { Renderer } from './renderer';
 import { Tree } from './tree';
-import { Children, createElement } from './element';
+import { Children, ClassComponent, PropsWithChildren, createElement } from './element';
 
 type Elements = { [type: string]: any };
 type Type = keyof Elements;
@@ -171,6 +171,67 @@ describe('Tree', () => {
       tree.render(root, 'anything');
 
       expect(renderer.removeChild).toHaveBeenCalledWith(root.element, 'something');
+    });
+  });
+
+  describe('renderComponent', () => {
+    it('should pass props to a component function', () => {
+      const SomeComponent = jest.fn(({ children }: PropsWithChildren) => <a>{children}</a>);
+      const props = { a: 'something' };
+      tree.render(
+        root,
+        // eslint-disable-next-line react/jsx-props-no-spreading
+        <SomeComponent {...props}>
+          <b />
+        </SomeComponent>,
+      );
+
+      expect(SomeComponent).toHaveBeenCalledWith({ ...props, children: [<b />] });
+    });
+
+    it('should render function component children', () => {
+      const SomeComponent = ({ children }: PropsWithChildren) => <a>{children}</a>;
+      tree.render(
+        root,
+        <SomeComponent>
+          <b />
+        </SomeComponent>,
+      );
+
+      const [a] = root.children as ContainerNode<Type>[];
+
+      expect(a).toBeDefined();
+      expect(a.element).toBe('a');
+
+      const [b] = a.children as ContainerNode<Type>[];
+
+      expect(b).toBeDefined();
+      expect(b.element).toBe('b');
+    });
+
+    it('should render class component children', () => {
+      class SomeComponent extends ClassComponent<any> {
+        render() {
+          return <a>{this.props.children}</a>;
+        }
+      }
+
+      tree.render(
+        root,
+        <SomeComponent>
+          <b />
+        </SomeComponent>,
+      );
+
+      const [a] = root.children as ContainerNode<Type>[];
+
+      expect(a).toBeDefined();
+      expect(a.element).toBe('a');
+
+      const [b] = a.children as ContainerNode<Type>[];
+
+      expect(b).toBeDefined();
+      expect(b.element).toBe('b');
     });
   });
 

@@ -1,7 +1,19 @@
-import { Evaluated, isCallable, $evaluable } from '../reflectable';
+import { Evaluated, isCallable, $evaluable, Callable } from '../reflectable';
 import { $observable } from '../observable';
 import { ContainerNode, ExpressionNode, Node, TextNode } from './node';
-import { Child, Children, ElementType, Element, Elements, Expression, Type, Void, PropsOf } from './element';
+import {
+  Child,
+  Children,
+  ComponentType,
+  ElementType,
+  Element,
+  Elements,
+  Expression,
+  Type,
+  Void,
+  isClassComponent,
+  PropsOf,
+} from './element';
 import { Renderer } from './renderer';
 
 interface Branch<T, U extends Elements<U>> {
@@ -87,6 +99,10 @@ export class Tree<T, U extends Elements<U>> {
   }
 
   private renderElement(parent: Node<T>, element: Element<U, Type<U>>): Branch<T, U> {
+    if (isCallable(element.type)) {
+      return this.renderComponent(parent, element.type, element.props);
+    }
+
     return this.renderNode(parent, element.type, element.props as PropsOf<keyof U, U>);
   }
 
@@ -117,6 +133,25 @@ export class Tree<T, U extends Elements<U>> {
     node.once('remove', () => this.renderer.removeChild(node.parentElement!, node.element!), true);
 
     return { node, children: null as never };
+  }
+
+  /**
+   * Renders a component node.
+   * @param node - Parent Virtual DOM node.
+   * @param component - The component to render.
+   * @param props - The component props.
+   */
+  protected renderComponent<P extends Record<string, unknown>>(
+    node: Node<T>,
+    component: ComponentType<U, P>,
+    props: P,
+  ): Branch<T, U> {
+    if (!isClassComponent<U, P>(component)) {
+      return { node, children: (component as Callable)(props) };
+    }
+
+    // eslint-disable-next-line new-cap
+    return { node, children: new component(props).render() };
   }
 
   /**
