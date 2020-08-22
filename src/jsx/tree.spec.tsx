@@ -2,7 +2,7 @@ import { $observable } from '../observable';
 import { ContainerNode, ExpressionNode } from './node';
 import { Renderer } from './renderer';
 import { Tree } from './tree';
-import { Children, ClassComponent, PropsWithChildren, createElement } from './element';
+import { Children, ClassComponent, Fragment, PropsWithChildren, createElement } from './element';
 
 type Elements = { [type: string]: any };
 type Type = keyof Elements;
@@ -99,6 +99,25 @@ describe('Tree', () => {
       tree.render(root, <a />);
 
       expect(root.clean).toHaveBeenCalled();
+    });
+
+    it('should insert a container node into the DOM', () => {
+      root.element = 'root';
+
+      tree.render(
+        root,
+        <a>
+          <b />
+          <c />
+          <>text</>
+        </a>,
+      );
+
+      expect(renderer.insertChild).toHaveBeenCalledTimes(4);
+      expect(renderer.insertChild).toHaveBeenNthCalledWith(1, 'root', 'a', undefined);
+      expect(renderer.insertChild).toHaveBeenNthCalledWith(2, 'a', 'b', undefined);
+      expect(renderer.insertChild).toHaveBeenNthCalledWith(3, 'a', 'c', 'b');
+      expect(renderer.insertChild).toHaveBeenNthCalledWith(4, 'a', 'text', 'c');
     });
 
     it('should set a tail on parent nodes', () => {

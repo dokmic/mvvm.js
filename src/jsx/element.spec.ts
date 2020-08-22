@@ -1,4 +1,4 @@
-import { ClassComponent, Element, createElement, isClassComponent } from './element';
+import { ClassComponent, Element, Fragment, createElement, isClassComponent } from './element';
 
 describe('Component', () => {
   it('should store props', () => {
@@ -8,6 +8,14 @@ describe('Component', () => {
     })(props);
 
     expect(component.props).toBe(props);
+  });
+});
+
+describe('Fragment', () => {
+  it('should return children as-is', () => {
+    const children = [] as never[];
+
+    expect(Fragment({ children })).toBe(children);
   });
 });
 

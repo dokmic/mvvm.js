@@ -110,6 +110,13 @@ export class Element<T extends Elements<T>, U extends Type<T> = Type<T>> {
 }
 
 /**
+ * Virtual DOM fragment.
+ */
+export function Fragment<T extends Elements<T>>(props: WithChildren<T, PropsObject>): Children<T> {
+  return props.children;
+}
+
+/**
  * Creates Virtual DOM element from JSX/HyperScript expression.
  * @param type - Virtual DOM element type.
  * @param props - Virtual DOM element properties.
