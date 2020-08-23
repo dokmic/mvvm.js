@@ -7,6 +7,7 @@ export {
   Props,
   Renderer,
   createElement,
+  render,
 } from './jsx';
 export { Command } from './reflectable';
 export { $reference } from './property';

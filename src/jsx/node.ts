@@ -119,6 +119,19 @@ export class ContainerNode<T> extends Node<T> {
 export class TextNode<T> extends ContainerNode<T> {}
 
 /**
+ * Virtual DOM node containing all renderable nodes.
+ */
+export class RootNode<T> extends ContainerNode<T> {
+  /**
+   * Initializes a Virtual DOM root node and stores related DOM element.
+   * @param element - A DOM element that will contain all renderable nodes.
+   */
+  constructor(readonly element: T) {
+    super();
+  }
+}
+
+/**
  * Virtual DOM node which cannot be present in the DOM.
  */
 export class ExpressionNode<T> extends Node<T> {

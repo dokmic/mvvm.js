@@ -1,5 +1,5 @@
 import { mocked } from 'ts-jest/utils';
-import { ContainerNode, ExpressionNode, Node } from './node';
+import { ContainerNode, ExpressionNode, Node, RootNode } from './node';
 
 describe('Node', () => {
   class TestNode extends Node<unknown> {}
@@ -111,6 +111,20 @@ describe('ContainerNode', () => {
     });
   });
 
+  describe('previousSibling', () => {
+    it('should get a previous sibling in the DOM', () => {
+      const parent = new RootNode('parent');
+      const node1 = new ContainerNode(parent);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const node2 = new ExpressionNode(parent);
+      const node3 = new ContainerNode(parent);
+
+      node1.element = 'something';
+
+      expect(node3.previousSibling).toBe('something');
+    });
+  });
+
   describe('remove', () => {
     it('should remove a reference to a DOM element on removal', () => {
       const node = new ContainerNode();
@@ -120,6 +134,19 @@ describe('ContainerNode', () => {
 
       expect(node.element).toBeUndefined();
     });
+  });
+});
+
+describe('RootNode', () => {
+  describe('constructor', () => {
+    let root: RootNode<unknown>;
+
+    beforeEach(() => {
+      root = new RootNode('something');
+    });
+
+    it('should have no parent', () => expect(root.parent).toBeUndefined());
+    it('should refer a DOM element', () => expect(root.element).toBe('something'));
   });
 });
 
