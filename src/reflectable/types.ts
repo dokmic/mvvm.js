@@ -16,6 +16,11 @@ export type ArgumentsOf<T> = T extends Callable<unknown, infer U> ? U : never;
 export type MethodOf<T> = keyof Pick<T, { [K in keyof T]: T[K] extends Callable ? K : never }[keyof T]>;
 
 /**
+ * Property of a class instance.
+ */
+export type PropertyOf<T> = keyof Pick<T, { [K in keyof T]: T[K] extends Callable ? never : K }[keyof T]>;
+
+/**
  * An object constructor.
  */
 export interface Constructor<T = any, U extends any[] = any[]> {
