@@ -1,10 +1,14 @@
+import alias from '@rollup/plugin-alias';
 import dts from 'rollup-plugin-dts';
 import { terser } from 'rollup-plugin-terser';
 import typescript from 'rollup-plugin-typescript2';
 import resolve from '@rollup/plugin-node-resolve';
 
 export default [
-  ...[['src/index.ts', { output: { name: 'MVVM', dir: 'lib' } }]].flatMap(([input, { output }]) => [
+  ...[
+    ['src/index.ts', { output: { name: 'MVVM', dir: 'lib' } }],
+    ['src/renderer/dom/index.ts', { output: { name: 'MVVM.dom', dir: 'lib/dom' } }],
+  ].flatMap(([input, { output }]) => [
     {
       input,
       external: ['..'],
@@ -16,6 +20,9 @@ export default [
           exports: 'named',
           sourcemap: true,
           sourcemapExcludeSources: true,
+          globals: {
+            '..': 'MVVM',
+          },
         },
         {
           ...output,
@@ -23,9 +30,13 @@ export default [
           format: 'esm',
           sourcemap: true,
           sourcemapExcludeSources: true,
+          globals: {
+            '..': 'MVVM',
+          },
         },
       ],
       plugins: [
+        alias({ entries: { 'mvvm.js': '..' } }),
         typescript({
           cacheRoot: './node_modules/.cache/rpt2',
           useTsconfigDeclarationDir: true,
@@ -43,9 +54,12 @@ export default [
     },
   ]),
 
-  ...[['src/index.ts', { output: { dir: 'lib' } }]].map(([input, { output, plugins }]) => ({
+  ...[
+    ['src/index.ts', { output: { dir: 'lib' } }],
+    ['src/renderer/dom/index.ts', { output: { dir: 'lib/dom' } }],
+  ].map(([input, { output, plugins }]) => ({
     input,
-    external: ['ts-toolbelt'],
+    external: ['..', 'ts-toolbelt'],
     output: {
       ...output,
       entryFileNames: '[name].d.ts',
@@ -57,6 +71,7 @@ export default [
         extensions: ['.d.ts'],
         mainFields: ['types'],
       }),
+      alias({ entries: { 'mvvm.js': '..' } }),
       dts(),
     ],
   })),

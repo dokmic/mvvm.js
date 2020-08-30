@@ -30,7 +30,7 @@
     "external-modulemap": ".*\/lib\/([\\w\\-_]+)",
     "hideGenerator": true,
     "includeDeclarations": true,
-    "inputFiles": ["lib/index.d.ts"],
+    "inputFiles": ["lib/index.d.ts", "lib/dom/index.d.ts"],
     "mode": "modules",
     "out": "docs"
   }
