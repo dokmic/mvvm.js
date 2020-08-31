@@ -1,4 +1,5 @@
 import alias from '@rollup/plugin-alias';
+import copy from 'rollup-plugin-copy';
 import dts from 'rollup-plugin-dts';
 import { terser } from 'rollup-plugin-terser';
 import typescript from 'rollup-plugin-typescript2';
@@ -56,7 +57,13 @@ export default [
 
   ...[
     ['src/index.ts', { output: { dir: 'lib' } }],
-    ['src/renderer/dom/index.ts', { output: { dir: 'lib/dom' } }],
+    [
+      'src/renderer/dom/index.ts',
+      {
+        output: { dir: 'lib/dom' },
+        plugins: [copy({ targets: [{ src: 'src/renderer/dom/jsx.d.ts', dest: 'lib/dom' }] })],
+      },
+    ],
   ].map(([input, { output, plugins }]) => ({
     input,
     external: ['..', 'ts-toolbelt'],
