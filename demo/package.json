@@ -4,10 +4,18 @@
   "author": "Michael Dokolin <m@dokol.in>",
   "license": "MIT",
   "private": true,
+  "scripts": {
+    "build": "webpack --config webpack.config.js"
+  },
   "dependencies": {
     "mvvm.js": "file:.."
   },
   "devDependencies": {
-    "typescript": "^4.0"
+    "clean-webpack-plugin": "^3.0",
+    "copy-webpack-plugin": "^6.1",
+    "ts-loader": "^8.0",
+    "typescript": "^4.0",
+    "webpack": "^4.44",
+    "webpack-cli": "^3.3"
   }
 }
