@@ -1,3 +1,4 @@
+const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
@@ -30,4 +31,12 @@ module.exports = {
       ],
     }),
   ],
+
+  devtool: 'source-map',
+  devServer: {
+    host: '0.0.0.0',
+    port: process.env.PORT || 3000,
+    contentBase: path.join(__dirname, 'dist'),
+    index: 'index.html',
+  },
 };
