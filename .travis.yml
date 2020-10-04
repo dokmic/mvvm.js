@@ -1,0 +1,38 @@
+language: node_js
+node_js:
+  - '14'
+
+install:
+  - npm install
+  - npm --prefix=demo install
+
+script:
+  - npm test
+  - npm run lint
+  - npm run build
+  - npm --prefix=demo run build
+
+before_deploy:
+  - npm run coverage
+  - npm run docs
+  - mv docs demo/dist/api
+
+deploy:
+  - provider: pages:git
+    allow_empty_commit: true
+    cleanup: false
+    committer_from_gh: true
+    commit_message: "Deploy ${TRAVIS_TAG}"
+    edge: true
+    local_dir: demo/dist
+    token: $GITHUB_AUTH_TOKEN
+    on:
+      branch: master
+      tags: true
+  - provider: npm
+    cleanup: false
+    edge: true
+    api_token: $NPM_AUTH_TOKEN
+    on:
+      branch: master
+      tags: true
