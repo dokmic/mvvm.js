@@ -1,6 +1,6 @@
 {
   "name": "ts-mvvm",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Model-View-ViewModel Pattern Implementation for TypeScript",
   "keywords": [
     "mvvm",
@@ -11,10 +11,10 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/dokmic/ts-mvvm"
+    "url": "https://github.com/dokmic/mvvm.js"
   },
   "bugs": {
-    "url": "https://github.com/dokmic/ts-mvvm/issues"
+    "url": "https://github.com/dokmic/mvvm.js/issues"
   },
   "main": "lib/index.ts",
   "scripts": {

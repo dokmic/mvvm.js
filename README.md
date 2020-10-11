@@ -1,8 +1,7 @@
 # Model–View–ViewModel Pattern Implementation for TypeScript
 
 [![NPM](https://img.shields.io/npm/v/ts-mvvm.svg)](https://www.npmjs.com/package/ts-mvvm)
-[![Build Status](https://travis-ci.org/dokmic/ts-mvvm.svg?branch=master)](https://travis-ci.org/dokmic/ts-mvvm)
-[![Code Coverage](https://codecov.io/gh/dokmic/ts-mvvm/badge.svg?branch=master)](https://codecov.io/gh/dokmic/ts-mvvm?branch=master)
+[![Code Coverage](https://codecov.io/gh/dokmic/mvvm.js/badge.svg?branch=version/0.1)](https://codecov.io/gh/dokmic/mvvm.js?branch=version/0.1)
 
 This package provides basic implementation of [Model-View-ViewModel](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93viewmodel) architectural pattern.
 
@@ -60,4 +59,4 @@ This is a method decorator that provides one-way binding with a view-model. The 
 
 ## Example
 
-You can find usage example in [demo folder](https://github.com/dokmic/ts-mvvm/tree/master/demo).
+You can find usage example in [demo folder](https://github.com/dokmic/mvvm.js/tree/version/0.1/demo).
