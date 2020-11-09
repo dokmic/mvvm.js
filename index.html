@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Model-View-ViewModel Simple Framework" />
+
+    <title>MVVM.js</title>
+
+    <base href="https://dokmic.github.io/mvvm.js/" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous" />
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="js/main.js" defer></script>
+  </head>
+  <body class="d-flex flex-column vh-100">
+    <header>
+      <nav class="navbar navbar-expand-sm navbar-dark bg-dark" role="navigation">
+        <div class="container">
+          <a class="navbar-brand" href=""><strong>MVVM</strong>.js</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="navbar-collapse collapse" id="navbar">
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item"><a class="nav-link" href="api/">API</a></li>
+              <li class="nav-item">
+                <a class="nav-link py-0" href="https://github.com/dokmic/mvvm.js">
+                  <span class="h2 my-0 d-none d-sm-block"><i class="fa fa-github"></i></span>
+                  <span class="py-2 d-block d-sm-none">GitHub</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <div class="container flex-fill d-flex flex-column" id="root"></div>
+  </body>
+</html>

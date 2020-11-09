@@ -1,0 +1,265 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>mvvm.js</title>
+	<meta name="description" content="Documentation for mvvm.js">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.json" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">mvvm.js</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="globals.html">Globals</a>
+				</li>
+			</ul>
+			<h1>mvvm.js</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<a href="#mvvmjs" id="mvvmjs" style="color: inherit; text-decoration: none;">
+					<h1>MVVM.js</h1>
+				</a>
+				<p><a href="https://www.npmjs.com/package/mvvm.js"><img src="https://img.shields.io/npm/v/mvvm.js.svg" alt="NPM"></a>
+					<a href="https://travis-ci.org/dokmic/mvvm.js"><img src="https://travis-ci.org/dokmic/mvvm.js.svg?branch=master" alt="Build Status"></a>
+				<a href="https://codecov.io/gh/dokmic/mvvm.js?branch=master"><img src="https://codecov.io/gh/dokmic/mvvm.js/badge.svg?branch=master" alt="Code Coverage"></a></p>
+				<p>This package provides a simple framework that is implementing the <a href="https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93viewmodel">Model-View-ViewModel</a> architectural pattern.</p>
+				<a href="#why" id="why" style="color: inherit; text-decoration: none;">
+					<h2>Why?</h2>
+				</a>
+				<p>This repository demonstrates a pure <a href="https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93viewmodel">Model-View-ViewModel</a> architectural pattern implementation.
+				The framework provides a component model similar to all the modern frontend frameworks and can be used for reactive rendering in trivial JavaScript or TypeScript applications.</p>
+				<a href="#features" id="features" style="color: inherit; text-decoration: none;">
+					<h2>Features</h2>
+				</a>
+				<ul>
+					<li>Reactivity based on observables similar to Vue.js.</li>
+					<li>Decorators defining a data-flow similar to Angular.</li>
+					<li>JSX syntax support similar to React.</li>
+					<li>JSX Fragments support.</li>
+					<li>Lazy DOM updating based on observables without expensive diffing.</li>
+				</ul>
+				<a href="#introduction" id="introduction" style="color: inherit; text-decoration: none;">
+					<h2>Introduction</h2>
+				</a>
+				<a href="#model" id="model" style="color: inherit; text-decoration: none;">
+					<h3>Model</h3>
+				</a>
+				<p>The model is a data-layer of an application.</p>
+				<pre><code class="language-typescript"><span class="hljs-keyword">const</span> model = { <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;John&#x27;</span> };</code></pre>
+				<a href="#view" id="view" style="color: inherit; text-decoration: none;">
+					<h3>View</h3>
+				</a>
+				<p>The view is a representation of a model describing appearance on the screen and bindings between the model data and the representation.</p>
+				<a href="#view-model" id="view-model" style="color: inherit; text-decoration: none;">
+					<h3>View-Model</h3>
+				</a>
+				<p>The view-model is an abstraction of the view exposing public properties and commands.
+				A data inside the view can be changed through the view-model, and the user&#39;s interaction can be handled from the external code via the commands.</p>
+				<a href="#binding" id="binding" style="color: inherit; text-decoration: none;">
+					<h3>Binding</h3>
+				</a>
+				<p>The binding is an expression bound to a particular part of the representation.
+					The view is evaluating the expression upon rendering.
+					In case, when the expression is relying on some observables, the expression will be re-evaluated upon the observable change.
+					Bindings are working one-way only, and provide one-way incoming data flow.
+				There is no way to update the binding from a view.</p>
+				<pre><code class="language-typescript"><span class="hljs-meta">@Bind</span>(<span class="hljs-string">&#x27;style.display&#x27;</span>) <span class="hljs-function"><span class="hljs-title">visibility</span>(<span class="hljs-params"></span>)</span> {
+  <span class="hljs-keyword">return</span> !<span class="hljs-built_in">this</span>.visible &amp;&amp; <span class="hljs-string">&#x27;none&#x27;</span>;
+}</code></pre>
+				<a href="#command" id="command" style="color: inherit; text-decoration: none;">
+					<h3>Command</h3>
+				</a>
+				<p>The command is a function that will be invoked from the representation upon some user interaction.
+				Commands can be listened from the external code and provide one-way outgoing data-flow.</p>
+				<pre><code class="language-typescript"><span class="hljs-meta">@Command</span> <span class="hljs-function"><span class="hljs-title">click</span>(<span class="hljs-params"></span>)</span> {}</code></pre>
+				<a href="#input" id="input" style="color: inherit; text-decoration: none;">
+					<h3>Input</h3>
+				</a>
+				<p>The input is a two-way data binding between a model property and a property available from the representation.
+					Properties marked as inputs are observables.
+					The view subscribes for the changes of used inputs and performs partial rerendering on demand.
+				The inputs provide two-way data-flow for the data between a model and its representation.</p>
+				<pre><code class="language-typescript"><span class="hljs-meta">@Input</span> name?: <span class="hljs-built_in">string</span>;</code></pre>
+				<a href="#expression" id="expression" style="color: inherit; text-decoration: none;">
+					<h3>Expression</h3>
+				</a>
+				<p>The expression is a value that depends on some data that may change in the future.
+					The view automatically evaluates all the expressions during the rendering.
+				In case, when it is relying on some observable, the value will be reevaluated upon change.</p>
+				<pre><code class="language-jsx"><span class="hljs-function"><span class="hljs-title">render</span>(<span class="hljs-params"></span>)</span> {
+  <span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">{()</span> =&gt;</span> this.visible ? &#x27;show&#x27; : &#x27;hide&#x27;} /&gt;</span>
+}</code></pre>
+				<a href="#observable" id="observable" style="color: inherit; text-decoration: none;">
+					<h3>Observable</h3>
+				</a>
+				<p>The observable is a value that may change later, and the changes can be observed from the outside.</p>
+				<a href="#component" id="component" style="color: inherit; text-decoration: none;">
+					<h3>Component</h3>
+				</a>
+				<p>The component is a composition of the view and the view-model.
+					There can be Class and Functional components.
+					Components accept properties on input, which represent a model.
+					The code of the functional component is the view.
+				In the case of the class component, the <code>render</code> method with all the bindings correspond to the view. And all the inputs and commands define the view-model.</p>
+				<pre><code class="language-tsx">import { Component, Input } from &#39;mvvm.js&#39;;
+
+class Button extends Component {
+  @Input label?: string;
+
+  render() {
+    return &lt;button&gt;{this.label}&lt;/button&gt;;
+  }
+}</code></pre>
+				<a href="#reference" id="reference" style="color: inherit; text-decoration: none;">
+					<h3>Reference</h3>
+				</a>
+				<p>The reference is a model value that refers to property from another object.
+					In case, when a model property should be passed down to another view-model, the property should be passed as a reference.
+				Every update of the referring property from the child component will take place in the referred object.</p>
+				<pre><code class="language-jsx">&lt;Toggle active={$reference(<span class="hljs-built_in">this</span>, <span class="hljs-string">&#x27;visible&#x27;</span>)} /&gt;</code></pre>
+				<a href="#get-started" id="get-started" style="color: inherit; text-decoration: none;">
+					<h2>Get Started</h2>
+				</a>
+				<a href="#installation" id="installation" style="color: inherit; text-decoration: none;">
+					<h3>Installation</h3>
+				</a>
+				<pre><code class="language-bash">npm install --save mvvm.js</code></pre>
+				<a href="#usage" id="usage" style="color: inherit; text-decoration: none;">
+					<h3>Usage</h3>
+				</a>
+				<pre><code class="language-tsx">import { Bind, Command, Component, Default, Input } from &#39;mvvm.js&#39;;
+import { render } from &#39;mvvm.js/lib/dom&#39;;
+
+interface ButtonProps {
+  icon?: string;
+  label?: string;
+  visible?: boolean;
+  click?(button: UIButton): void;
+}
+
+class Button extends Component&lt;ButtonProps&gt; {
+  @Input icon?: string;
+
+  @Input label?: string;
+
+  @Input @Default(true) visible?: boolean;
+
+  @Command click() {}
+
+  @Bind(&#39;style.display&#39;) visibility() {
+    return !this.visible &amp;&amp; &#39;none&#39;;
+  }
+
+  render() {
+    return (
+      &lt;a role=&quot;button&quot; class=&quot;btn btn-primary&quot; title={() =&gt; this.label} onClick={this.click}&gt;
+        {() =&gt; this.icon &amp;&amp; &lt;i class={`fa fa-${this.icon}`}&gt;&lt;/i&gt;}
+        {() =&gt; this.label}
+      &lt;/a&gt;
+    );
+  }
+}
+
+render(
+  &lt;Button label=&#39;Button&#39; /&gt;,
+  document.querySelector(&#39;#root&#39;)!,
+);</code></pre>
+				<a href="#api" id="api" style="color: inherit; text-decoration: none;">
+					<h2>API</h2>
+				</a>
+				<p>You can find the complete API reference <a href="https://dokmic.github.io/mvvm.js/api/">here</a>.</p>
+				<a href="#example" id="example" style="color: inherit; text-decoration: none;">
+					<h2>Example</h2>
+				</a>
+				<p>You can see a working demo <a href="https://dokmic.github.io/mvvm.js/">here</a> (<a href="https://github.com/dokmic/mvvm.js/tree/master/demo">source code</a>).</p>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="globals.html"><em>Globals</em></a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/dom.html">dom</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/index.html">index</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer>
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+</body>
+</html>
